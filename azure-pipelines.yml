@@ -21,8 +21,10 @@ stages:
        - task: UseDotNet@2
          inputs:
           packageType: 'sdk'
-          version: '8.0.x'
-
+          version: '6.0.x'
+    - job: restore 
+      displayName: restoring the nuget package from external source 
+      steps:
        - task: DotNetCoreCLI@2
          inputs:
             command: 'restore'
