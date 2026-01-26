@@ -12,11 +12,15 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+stages:
+ - stage: TEST 
+   jobs:
+    - job: Installtool
+      displayName: installing required tool
+      steps:
+       - task: UseDotNet@2
+         inputs:
+          packageType: 'sdk'
+          version: '6.0'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
+
