@@ -29,6 +29,23 @@ stages:
          inputs:
             command: 'restore'
             projects: '**/*.csproj'
-            feedsToUse: 'nugetOrg'
+
+    - job: Build
+      displayName: Building code 
+      dependsOn: Restore
+      steps:
+         - task: DotNetCoreCLI@2
+           inputs:
+            command: 'build'
+            projects: '**/*.csproj'
+
+    - job: Test 
+      displayName: Test my code
+      dependsOn: Build
+      steps: 
+         - task: DotNetCoreCLI@2
+           inputs:
+             command: 'test'
+             projects: '**/*.csproj'
 
 
