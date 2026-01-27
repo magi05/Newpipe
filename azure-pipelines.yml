@@ -46,7 +46,7 @@ stages:
          - task: DotNetCoreCLI@2
            inputs:
              command: 'test'
-             arguments: --collect "Code Coverage"
+             arguments: --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
     - job: publishcodecoverage
       steps:
         - task: PublishCodeCoverageResults@2
