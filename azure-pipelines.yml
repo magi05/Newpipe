@@ -53,3 +53,5 @@ stages:
           inputs: 
             codeCoverageTool: 'cobertura'
             summaryFileLocation: '$(System.DefaultWorkingDirectory)\\codecoverage.cobertura.xml'
+            reportDirectory: '$(System.DefaultWorkingDirectory)\CodeCoverageReport'
+
