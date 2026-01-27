@@ -68,3 +68,5 @@ stages:
           inputs:
             command: 'publish'
             publishWebProjects: false
+            projects: '**/*.csproj'
+
