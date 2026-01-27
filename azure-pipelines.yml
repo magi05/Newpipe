@@ -46,14 +46,9 @@ stages:
          - task: DotNetCoreCLI@2
            inputs:
              command: 'test'
-             arguments: --collect:"XPlat Code Coverage" 
-         # Copy coverage file to a known location
-         - script: |
-            echo "Searching for coverage file..."
-            find $(System.DefaultWorkingDirectory) -name 'coverage.cobertura.xml'
-            mkdir -p $(System.DefaultWorkingDirectory)/coverage
-            cp $(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml $(System.DefaultWorkingDirectory)/coverage/
-           displayName: 'Locate and copy coverage file'
+             arguments:  '--collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+
+         
 
     - job: publishcodecoverage
       dependsOn: Test
@@ -61,6 +56,15 @@ stages:
         - task: PublishCodeCoverageResults@2
           inputs: 
             codeCoverageTool: 'cobertura'
-            summaryFileLocation: '$(System.DefaultWorkingDirectory)/codecoverage.cobertura.xml'
-            
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)//coverage.cobertura.xml'
+            reportDirectory: '$(System.DefaultWorkingDirectory)//**codecoverageReport' 
 
+    - job: Publish
+      displayName: Publish artifact
+      dependsOn: Test
+      steps:
+
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: 'publish'
+            publishWebProjects: false
