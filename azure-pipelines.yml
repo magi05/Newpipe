@@ -52,6 +52,6 @@ stages:
         - task: PublishCodeCoverageResults@2
           inputs: 
             codeCoverageTool: 'cobertura'
-            summaryFileLocation: '$(System.DefaultWorkingDirectory)\\codecoverage.cobertura.xml'
-            reportDirectory: '$(System.DefaultWorkingDirectory)\CodeCoverageReport'
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)/codecoverage.cobertura.xml'
+            reportDirectory: '$(System.DefaultWorkingDirectory)/CodeCoverageReport'
 
