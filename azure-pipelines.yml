@@ -47,4 +47,9 @@ stages:
            inputs:
              command: 'test'
              arguments: --collect "Code Coverage"
-
+    - job: publishcodecoverage
+      steps:
+        - task: PublishCodeCoverageResults@2
+          inputs: 
+            codeCoverageTool: 'cobertura'
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)\\codecoverage.cobertura.xml'
