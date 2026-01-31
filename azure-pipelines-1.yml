@@ -5,12 +5,24 @@ variables:
 
 strategy:
   matrix:
-    linux:
+    linux6:
       imageName: "ubuntu-latest"
-    mac:
+      dotnetversion: "6.0.x"
+    linux8:
+      imageName: "ubuntu-latest"
+      dotnetversion: "8.0.x"
+    mac5:
       imageName: "macOS-latest"
-    windows:
+      dotnetversion: "5.0.x"
+    mac7:
+      imageName: "macOS-latest"
+      dotnetversion: "7.0.x"
+    windows9:
       imageName: "windows-latest"
+      dotnetversion: "9.0.x"
+    windows11:
+      imageName: "windows-latest"
+      dotnetversion: "11.0.x"
   maxParallel: 3
 
 pool:
@@ -26,5 +38,5 @@ pool:
         - task: UseDotNet@2
           inputs:
            packageType: 'sdk'
-           version: '6.0.x'
+           version: $(dotnetversion)
      
