@@ -1,5 +1,7 @@
 trigger:
 - master
+variables: 
+  buildConfiguration: 'Release'
 
 strategy:
   matrix:
@@ -25,28 +27,4 @@ pool:
           inputs:
            packageType: 'sdk'
            version: '6.0.x'
-     - job: restore 
-       displayName: restoring the nuget package from external source 
-       steps:
-        - task: DotNetCoreCLI@2
-          inputs:
-            command: 'restore'
-            projects: '**/*.csproj'
-
-     - job: Build
-       displayName: Building code 
-       dependsOn: Restore
-       steps:
-         - task: DotNetCoreCLI@2
-           inputs:
-            command: 'build'
-            projects: '**/*.csproj'
-
-     - job: Test 
-       displayName: Test my code
-       dependsOn: Build
-       steps: 
-         - task: DotNetCoreCLI@2
-           inputs:
-             command: 'test'
-             arguments:  '--collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+     
