@@ -1,0 +1,57 @@
+trigger:
+- master
+
+  strategy:
+  matrix:
+    linux:
+      imageName: "ubuntu-latest"
+    mac:
+      imageName: "macOS-latest"
+    windows:
+      imageName: "windows-latest"
+  maxParallel: 3
+
+pool:
+  vmImage: $(imageName)
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+
+stages:
+ - stage: TEST 
+   jobs:
+    - job: Installtool
+      displayName: installing required tool
+      steps:
+       - task: UseDotNet@2
+         inputs:
+          packageType: 'sdk'
+          version: '6.0.x'
+    - job: restore 
+      displayName: restoring the nuget package from external source 
+      steps:
+       - task: DotNetCoreCLI@2
+         inputs:
+            command: 'restore'
+            projects: '**/*.csproj'
+
+    - job: Build
+      displayName: Building code 
+      dependsOn: Restore
+      steps:
+         - task: DotNetCoreCLI@2
+           inputs:
+            command: 'build'
+            projects: '**/*.csproj'
+
+    - job: Test 
+      displayName: Test my code
+      dependsOn: Build
+      steps: 
+         - task: DotNetCoreCLI@2
+           inputs:
+             command: 'test'
+             arguments:  '--collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
